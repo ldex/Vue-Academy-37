@@ -3,6 +3,9 @@ import HomeView from "../views/HomeView.vue";
 import ProductDetailsView from "@/views/ProductDetailsView.vue";
 import ProductInsertView from '@/views/ProductInsertView.vue';
 import ErrorView from "@/views/ErrorView.vue";
+import AdminView from '@/views/AdminView.vue';
+import LoginView from '@/views/LoginView.vue';
+import { useUserStore } from '@/stores/user';
 
 const routes = [
   {
@@ -21,6 +24,11 @@ const routes = [
     component: () => import('../views/AboutView.vue')
   },
   {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
     path: '/product/:id',
     name: 'product',
     component: ProductDetailsView,
@@ -30,6 +38,12 @@ const routes = [
     path: '/product/insert',
     name: 'productInsert',
     component: ProductInsertView
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminView,
+    meta: { requiresAuth: true }
   },
   {
     path: "/:pathMatch(.*)*",
@@ -42,6 +56,12 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
+
+router.beforeEach((to) => {
+  const userStore = useUserStore();
+
+  if (to.meta.requiresAuth && !userStore.isLoggedIn) return '/login'
+})
 
 function castRouteParamsId(route) {
   return {
