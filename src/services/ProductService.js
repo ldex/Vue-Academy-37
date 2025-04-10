@@ -3,6 +3,25 @@ const resourceName = 'products';
 
 export default {
 
+  insertProduct(product) {
+    const url = `${baseURL}/${resourceName}`;
+    const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(product)
+    };
+
+    return fetch(url,options)
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => {
+              console.error('API Error while creating new product, ' + error);
+              return Promise.reject(error);
+            })
+  },
+
   getProducts() {
     const sortParams = `?_sort=modifiedDate&_order=desc`;
     const url = `${baseURL}/${resourceName}${sortParams}`;

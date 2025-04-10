@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import ProductDetailsView from "@/views/ProductDetailsView.vue";
+import ProductInsertView from '@/views/ProductInsertView.vue';
 import ErrorView from "@/views/ErrorView.vue";
 
 const routes = [
@@ -24,6 +25,11 @@ const routes = [
     name: 'product',
     component: ProductDetailsView,
     props: castRouteParamsId
+  },
+  {
+    path: '/product/insert',
+    name: 'productInsert',
+    component: ProductInsertView
   },
   {
     path: "/:pathMatch(.*)*",
